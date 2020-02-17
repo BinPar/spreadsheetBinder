@@ -1,7 +1,7 @@
 {
-  "name": "ts-next-boilerplate",
+  "name": "spreadsheet-binder",
   "version": "1.0.0",
-  "description": "TypeScript Next Boilerplate",
+  "description": "Spreadsheet Binder",
   "scripts": {
     "dev": "next",
     "build": "next build",
