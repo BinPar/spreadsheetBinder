@@ -17,4 +17,26 @@ export interface PasteTextAction {
   text: string;
 }
 
-export type Action = PasteTextAction | MoveNext | JumpTo;
+export interface SetColumnAction {
+  type: 'setColumn';
+  index: number;
+  toColumn: number;
+}
+
+export type CompareTypes = 'string' | 'dni' | 'postal';
+
+
+export interface SetTypeAction {
+  type: 'setType';
+  index: number;
+  toType?:  CompareTypes;
+}
+
+export interface SetValueAction {
+  type: 'setValue';
+  index: number;
+  toValue: number;
+}
+
+
+export type Action = PasteTextAction | MoveNext | JumpTo | SetColumnAction | SetTypeAction | SetValueAction;

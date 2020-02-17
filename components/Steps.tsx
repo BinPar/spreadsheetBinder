@@ -21,6 +21,7 @@ import { green } from '@material-ui/core/colors';
 import Tooltip from '@material-ui/core/Tooltip';
 import DataTable from './DataTable';
 import useAppReducer from '../hooks/userAppReducer';
+import Associations from './Associations';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -169,7 +170,7 @@ export default function SimpleTabs(): JSX.Element {
         <DataTable data={state.tables[1]} />
       </TabPanel>
       <TabPanel value={state.currentStep} index={2}>
-        Item Three
+        <Associations state={state} dispatch={dispatch} />
       </TabPanel>
       {fabs.map((fab, index) => (
         <Zoom
