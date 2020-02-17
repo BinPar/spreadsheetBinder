@@ -1,3 +1,3 @@
-# TypeScript Next Boilerplate
+# Spreadsheet Binder
 
-TypeScript Next Boilerplate
+Sistema de asociación de registros para hojas de cálculo
