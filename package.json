@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BinPar/ts-next-boilerplate.git"
+    "url": "git+https://github.com/BinPar/spreadsheetBinder.git"
   },
   "author": "Ignacio <nacho@binpar.com> (https://www.binpar.com/)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/BinPar/ts-next-boilerplate/issues"
+    "url": "https://github.com/BinPar/spreadsheetBinder/issues"
   },
-  "homepage": "https://github.com/BinPar/ts-next-boilerplate#readme",
+  "homepage": "https://github.com/BinPar/spreadsheetBinder#readme",
   "dependencies": {
     "@material-ui/core": "^4.9.3",
     "@material-ui/icons": "^4.9.1",
