@@ -1,6 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, Theme, useTheme, createStyles } from '@material-ui/core/styles';
+import {
+  makeStyles,
+  Theme,
+  useTheme,
+  createStyles,
+} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -10,9 +15,12 @@ import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import Next from '@material-ui/icons/SkipNext';
 import TuneIcon from '@material-ui/icons/Tune';
 import { green } from '@material-ui/core/colors';
 import Tooltip from '@material-ui/core/Tooltip';
+import DataTable from './DataTable';
+import useAppReducer from '../hooks/userAppReducer';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -40,13 +48,18 @@ function TabPanel(props: TabPanelProps): JSX.Element {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: '#e9ecf0',
       width: '100vw',
       position: 'relative',
       minHeight: '100vh',
     },
     fab: {
-      position: 'absolute',
+      position: 'fixed',
+      bottom: theme.spacing(2),
+      right: theme.spacing(10),
+    },
+    fabB: {
+      position: 'fixed',
       bottom: theme.spacing(2),
       right: theme.spacing(2),
     },
@@ -60,13 +73,23 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+const tabTitles = [
+  'Celdas a puntuar',
+  'Celdas a comparar',
+  'Asociaciones',
+  'Resultado',
+];
+
 export default function SimpleTabs(): JSX.Element {
   const classes = useStyles();
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
+  const [state, dispatch] = useAppReducer();
 
   const handleChange = (_: React.ChangeEvent<{}>, newValue: number): void => {
-    setValue(newValue);
+    dispatch({
+      type: 'jump',
+      step: newValue,
+    });
   };
 
   const transitionDuration = {
@@ -80,68 +103,89 @@ export default function SimpleTabs(): JSX.Element {
       className: classes.fab,
       icon: <CloudUploadIcon />,
       label: 'Pegar datos de las celdas a puntuar',
+      click: (): void => {
+        navigator.clipboard.readText().then((clipText): void => {
+          dispatch({
+            type: 'paste',
+            tableIndex: 0,
+            text: clipText,
+          });
+        });
+      },
     },
     {
       color: 'secondary' as 'secondary',
       className: classes.fab,
       icon: <CloudUploadIcon />,
       label: 'Pegar datos de las celdas a comparar',
+      click: (): void => {
+        navigator.clipboard.readText().then((clipText): void => {
+          dispatch({
+            type: 'paste',
+            tableIndex: 1,
+            text: clipText,
+          });
+        });
+      },
     },
     {
       color: 'inherit' as 'inherit',
       className: clsx(classes.fab, classes.fabGreen),
       icon: <TuneIcon />,
       label: 'Procesar asociaciones',
+      click: (): void => {},
     },
     {
       color: 'inherit' as 'inherit',
       className: clsx(classes.fab, classes.fabGreen),
       icon: <CloudDownloadIcon />,
       label: 'Copiar resultado',
+      click: (): void => {},
     },
-    
   ];
 
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
         <Tabs
-          value={value}
+          value={state.currentStep}
           onChange={handleChange}
           variant="scrollable"
           scrollButtons="auto"
           indicatorColor="primary"
           textColor="primary"
         >
-          <Tab label="Celdas a puntuar" />
-          <Tab label="Celdas a comparar" />
-          <Tab label="Asociaciones" />
-          <Tab label="Resultado" />
+          {tabTitles.map(
+            (title: string, i: number): JSX.Element => (
+              <Tab key={title} label={title} disabled={i > state.maxStep} />
+            ),
+          )}
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        Item One
+      <TabPanel value={state.currentStep} index={0}>
+        <DataTable data={state.tables[0]} />
       </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
+      <TabPanel value={state.currentStep} index={1}>
+        <DataTable data={state.tables[1]} />
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={state.currentStep} index={2}>
         Item Three
       </TabPanel>
       {fabs.map((fab, index) => (
         <Zoom
           key={fab.label}
-          in={value === index}
+          in={state.currentStep === index}
           timeout={transitionDuration}
           style={{
             transitionDelay: `${
-              value === index ? transitionDuration.exit : 0
+              state.currentStep === index ? transitionDuration.exit : 0
             }ms`,
           }}
           unmountOnExit
         >
           <Tooltip title={fab.label} aria-label={fab.label}>
             <Fab
+              onClick={fab.click}
               aria-label={fab.label}
               className={fab.className}
               color={fab.color}
@@ -151,6 +195,20 @@ export default function SimpleTabs(): JSX.Element {
           </Tooltip>
         </Zoom>
       ))}
+      <Tooltip title="Siguiente" aria-label="Siguiente">
+        <div className={classes.fabB}>
+          <Fab
+            aria-label="Siguiente"
+            disabled={state.currentStep >= state.maxStep}
+            color="primary"
+            onClick={(): void => {
+              dispatch({ type: 'next' });
+            }}
+          >
+            <Next />
+          </Fab>
+        </div>
+      </Tooltip>
     </div>
   );
 }
