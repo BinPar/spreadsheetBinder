@@ -1,9 +1,14 @@
-export interface BasicAction {
-  type: string;
-}
-
 export interface MoveNext {
   type: 'next';
+}
+
+export interface MoveBack {
+  type: 'back';
+}
+
+
+export interface Process {
+  type: 'process';
 }
 
 export interface JumpTo {
@@ -25,11 +30,10 @@ export interface SetColumnAction {
 
 export type CompareTypes = 'string' | 'dni' | 'postal';
 
-
 export interface SetTypeAction {
   type: 'setType';
   index: number;
-  toType?:  CompareTypes;
+  toType?: CompareTypes;
 }
 
 export interface SetValueAction {
@@ -38,5 +42,12 @@ export interface SetValueAction {
   toValue: number;
 }
 
-
-export type Action = PasteTextAction | MoveNext | JumpTo | SetColumnAction | SetTypeAction | SetValueAction;
+export type Action =
+  | PasteTextAction
+  | MoveNext
+  | MoveBack
+  | JumpTo
+  | SetColumnAction
+  | SetTypeAction
+  | SetValueAction
+  | Process;

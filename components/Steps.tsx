@@ -16,6 +16,7 @@ import Fab from '@material-ui/core/Fab';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import Next from '@material-ui/icons/SkipNext';
+import Back from '@material-ui/icons/SkipPrevious';
 import TuneIcon from '@material-ui/icons/Tune';
 import { green } from '@material-ui/core/colors';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -63,6 +64,11 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'fixed',
       bottom: theme.spacing(2),
       right: theme.spacing(2),
+    },
+    fabC: {
+      position: 'fixed',
+      bottom: theme.spacing(2),
+      right: theme.spacing(18),
     },
     fabGreen: {
       color: theme.palette.common.white,
@@ -134,14 +140,25 @@ export default function SimpleTabs(): JSX.Element {
       className: clsx(classes.fab, classes.fabGreen),
       icon: <TuneIcon />,
       label: 'Procesar asociaciones',
-      click: (): void => {},
+      click: (): void => {
+        dispatch({
+          type: 'process',
+        });
+      },
     },
     {
       color: 'inherit' as 'inherit',
       className: clsx(classes.fab, classes.fabGreen),
       icon: <CloudDownloadIcon />,
       label: 'Copiar resultado',
-      click: (): void => {},
+      click: (): void => {
+        navigator.clipboard.writeText(
+          [
+            state.result.headers.join('\t'),
+            ...state.result.body.map(row => row.join('\t')),
+          ].join('\n'),
+        );
+      },
     },
   ];
 
@@ -172,6 +189,22 @@ export default function SimpleTabs(): JSX.Element {
       <TabPanel value={state.currentStep} index={2}>
         <Associations state={state} dispatch={dispatch} />
       </TabPanel>
+      <TabPanel value={state.currentStep} index={3}>
+        <DataTable data={state.result} />
+      </TabPanel>
+      <Tooltip title="Anterior">
+        <div className={classes.fabC}>
+          <Fab
+            disabled={state.currentStep === 0}
+            color="secondary"
+            onClick={(): void => {
+              dispatch({ type: 'back' });
+            }}
+          >
+            <Back />
+          </Fab>
+        </div>
+      </Tooltip>
       {fabs.map((fab, index) => (
         <Zoom
           key={fab.label}
@@ -196,10 +229,9 @@ export default function SimpleTabs(): JSX.Element {
           </Tooltip>
         </Zoom>
       ))}
-      <Tooltip title="Siguiente" aria-label="Siguiente">
+      <Tooltip title="Siguiente">
         <div className={classes.fabB}>
           <Fab
-            aria-label="Siguiente"
             disabled={state.currentStep >= state.maxStep}
             color="primary"
             onClick={(): void => {

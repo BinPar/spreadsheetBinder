@@ -1,6 +1,7 @@
 import { State, Association } from './state';
 import { Action } from './types/action';
 import processDataText from './processDataText';
+import processResult from './processResult';
 
 const reducer = (current: State, action: Action): State => {
   switch (action.type) {
@@ -30,6 +31,12 @@ const reducer = (current: State, action: Action): State => {
       return {
         ...current,
         currentStep: Math.min(current.currentStep + 1, current.maxStep),
+      };
+    }
+    case 'back': {
+      return {
+        ...current,
+        currentStep: Math.max(current.currentStep - 1, 0),
       };
     }
     case 'jump': {
@@ -75,6 +82,18 @@ const reducer = (current: State, action: Action): State => {
           value: action.toValue,
         };
       }
+      return result;
+    }
+    case 'process' : {
+      const result = {
+        ...current,      
+      };
+      
+      result.result = processResult(result);
+      if (result.result) {
+        result.maxStep = 3;
+        result.currentStep = 3;
+      }      
       return result;
     }
     default:

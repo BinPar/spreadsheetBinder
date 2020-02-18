@@ -44,10 +44,7 @@ const Associations = ({ state, dispatch }: AssociationsProps): JSX.Element => {
     });
   };
 
-  const onValueChange = (
-    newValue: number,
-    headerIndex: number,
-  ): void => {
+  const onValueChange = (newValue: number, headerIndex: number): void => {
     dispatch({
       type: 'setValue',
       index: headerIndex,
@@ -75,7 +72,11 @@ const Associations = ({ state, dispatch }: AssociationsProps): JSX.Element => {
                 </TableCell>
                 <TableCell>
                   <Select
-                    value={state.associations[headerIndex].targetCol || -1}
+                    value={
+                      state.associations[headerIndex].targetCol === undefined
+                        ? -1
+                        : state.associations[headerIndex].targetCol
+                    }
                     onChange={(
                       ev: React.ChangeEvent<{ value: number }>,
                     ): void => onColumnChanged(ev, headerIndex)}
@@ -120,7 +121,7 @@ const Associations = ({ state, dispatch }: AssociationsProps): JSX.Element => {
                     value={state.associations[headerIndex].value}
                     valueLabelDisplay="auto"
                     step={1}
-                    marks 
+                    marks
                     onChange={(_, newValue: number): void => {
                       onValueChange(newValue, headerIndex);
                     }}
