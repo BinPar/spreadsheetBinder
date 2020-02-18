@@ -28,16 +28,20 @@ const processResult = (state: State): DataTable => {
   const bindings: Bindings = {};
 
   state.associations.forEach((association, index): void => {
-    if (association.value && association.type && association.targetCol) {
-      tableA.body.forEach((tableARow): void => {
+    if (
+      association.value &&
+      association.type &&
+      association.targetCol !== undefined
+    ) {
+      tableA.body.forEach((tableARow, tableAIndex): void => {
         const value = tableARow[index] || '';
         if (value) {
-          tableB.body.forEach((tableBRow): void => {
+          tableB.body.forEach((tableBRow, tableBIndex): void => {
             const target = tableBRow[association.targetCol] || '';
             if (target) {
               let match = false;
               switch (association.type) {
-                case 'string':                  
+                case 'string':
                   match = value === target;
                   break;
                 default:
@@ -45,13 +49,13 @@ const processResult = (state: State): DataTable => {
                   break;
               }
               if (match) {
-                if (!bindings[index]) {
-                  bindings[index] = {};
+                if (!bindings[tableAIndex]) {
+                  bindings[tableAIndex] = {};
                 }
-                if (!bindings[index][association.targetCol]) {
-                  bindings[index][association.targetCol] = 0;
+                if (!bindings[tableAIndex][tableBIndex]) {
+                  bindings[tableAIndex][tableBIndex] = 0;
                 }
-                bindings[index][association.targetCol] += association.value;
+                bindings[tableAIndex][tableBIndex] += association.value;
               }
             }
           });
@@ -59,6 +63,20 @@ const processResult = (state: State): DataTable => {
       });
     }
   });
+
+  Object.keys(bindings).forEach((sourceRow: string) => {
+    const sourceRowNum = parseInt(sourceRow, 10);
+    Object.keys(bindings[sourceRowNum]).forEach((targetRow: string) => {
+      const targetRowNum = parseInt(targetRow, 10);
+      const row = [
+        ...tableA.body[sourceRowNum],
+        bindings[sourceRowNum][targetRowNum].toString(),
+        ...tableB.body[targetRowNum],
+      ];
+      result.body.push(row);
+    });
+  });
+
   return result;
 };
 

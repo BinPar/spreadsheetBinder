@@ -44,8 +44,9 @@ const DataTable = ({ data }: DataTableProps): JSX.Element => {
         <TableHead>
           <TableRow>
             {data.headers.map(
-              (title: string): JSX.Element => (
-                <TableCell key={title}>{title}</TableCell>
+              (title: string, i: number): JSX.Element => (
+                // eslint-disable-next-line react/no-array-index-key
+                <TableCell key={i}>{title}</TableCell>
               ),
             )}
           </TableRow>
