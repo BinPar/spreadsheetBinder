@@ -19,7 +19,7 @@ const reducer = (current: State, action: Action): State => {
       }
       result.tables[action.tableIndex] = resultData;
 
-      result.associations = result.tables[action.tableIndex].headers.map(
+      result.associations = result.tables[0].headers.map(
         (): Association => ({
           value: 0,
         }),
