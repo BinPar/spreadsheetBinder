@@ -113,6 +113,9 @@ const Associations = ({ state, dispatch }: AssociationsProps): JSX.Element => {
                     <MenuItem value="postal">
                       <em>Código Postal</em>
                     </MenuItem>
+                    <MenuItem value="email">
+                      <em>Email</em>
+                    </MenuItem>
                   </Select>
                 </TableCell>
                 <TableCell>

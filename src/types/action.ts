@@ -28,7 +28,7 @@ export interface SetColumnAction {
   toColumn: number;
 }
 
-export type CompareTypes = 'string' | 'dni' | 'postal';
+export type CompareTypes = 'string' | 'dni' | 'postal' | 'email';
 
 export interface SetTypeAction {
   type: 'setType';
