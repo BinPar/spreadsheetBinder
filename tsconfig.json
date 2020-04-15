@@ -31,7 +31,7 @@
   },
   "exclude": [
     "node_modules",
-    "tests/**/*.ts",
+    "test/tests/**/*.ts",
     "**/*.spec.ts",
     "**/*.spec.tsx",
     "**/*.test.ts",

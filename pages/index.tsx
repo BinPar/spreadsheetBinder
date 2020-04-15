@@ -1,11 +1,8 @@
 import React from 'react';
-import Head from 'next/head';
+import Steps from '../components/Steps';
 
-export default (): JSX.Element => (
-  <React.Fragment>
-    <Head>
-      <title>Hello BinPar!</title>
-    </Head>
-    <h1>Hello BinPar</h1>
-  </React.Fragment>
-);
+const Index = (): JSX.Element => {
+  return <Steps />;
+};
+
+export default Index;
