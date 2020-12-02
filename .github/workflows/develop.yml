@@ -30,7 +30,7 @@ jobs:
       - name: Audit
         run: npm audit --audit-level=moderate
       - name: Build
-        run: npm run build-static
+        run: npm run build
       - name: Lint
         run: npm run lint
       - name: Test

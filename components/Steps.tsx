@@ -21,11 +21,11 @@ import TuneIcon from '@material-ui/icons/Tune';
 import { green } from '@material-ui/core/colors';
 import Tooltip from '@material-ui/core/Tooltip';
 import DataTable from './DataTable';
-import useAppReducer from '../hooks/userAppReducer';
+import useAppReducer from '../hooks/useAppReducer';
 import Associations from './Associations';
 
 interface TabPanelProps {
-  children?: React.ReactNode;
+  children: React.ReactNode | null;
   index: number;
   value: number;
 }
