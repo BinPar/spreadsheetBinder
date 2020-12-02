@@ -1,0 +1,53 @@
+name: Test on develop push or pull request
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+jobs:
+  Install_and_test:
+    runs-on: ubuntu-latest
+    container:
+      image: node:14-alpine
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Install Modules
+        run: npm install
+      - name: Audit
+        run: npm audit --audit-level=moderate
+      - name: Build
+        run: npm run build
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm run test
+      - name: Test Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          severity: error
+          details: Test Failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          avatarUrl: ${{ secrets.DISCORD_AVATAR_URL }}
+      - name: Test Cancelled
+        uses: rjstone/discord-webhook-notify@v1
+        if: cancelled()
+        with:
+          severity: warn
+          details: Test Cancelled!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          avatarUrl: ${{ secrets.DISCORD_AVATAR_URL }}

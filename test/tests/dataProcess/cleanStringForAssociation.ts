@@ -4,6 +4,7 @@ export default test('Clean String For Association', (): void => {
   expect(cleanStringForAssociation('Asd', 'string')).toBe('asd');
   expect(cleanStringForAssociation('Ásd', 'string')).toBe('asd');
   expect(cleanStringForAssociation('ásd', 'string')).toBe('asd');
+  expect(cleanStringForAssociation('ásd j', 'string')).toBe('asd j');
   expect(cleanStringForAssociation('ÁÉÍÓÚÜÑáéíóúüñ', 'string')).toBe('aeiouunaeiouun');
   expect(cleanStringForAssociation('Nacho  Ferro', 'string')).toBe('nacho ferro');
   expect(cleanStringForAssociation('Nacho. |, -Ferro', 'string')).toBe('nacho ferro');

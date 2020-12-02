@@ -1,13 +1,17 @@
 {
   "name": "spreadsheet-binder",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "Spreadsheet Binder",
   "scripts": {
     "dev": "next",
     "build": "next build",
     "start": "next start -p 80",
     "test": "jest",
-    "test-dev": "NODE_ENV=development npx jest --watch"
+    "test-dev": "NODE_ENV=development npx jest --watch",
+    "lint": "eslint --config ./.eslintrc ./**/*.ts ./**/*.tsx"
+  },
+  "engines": {
+    "node": ">=10.0.0"
   },
   "repository": {
     "type": "git",
@@ -25,7 +29,7 @@
     "@material-ui/lab": "^4.0.0-alpha.45",
     "@types/mocha": "^5.2.7",
     "clsx": "^1.1.0",
-    "next": "^9.3.0",
+    "next": "^10.0.3",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-swipeable-views": "^0.13.9"
@@ -46,7 +50,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "jest": "^24.9.0",
-    "ts-jest": "^24.3.0",
+    "ts-jest": "^26.4.4",
     "typescript": "^3.8.3"
   }
 }

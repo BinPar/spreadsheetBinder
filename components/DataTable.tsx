@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 });
 
 interface DataTableProps {
-  data?: IDataTable;
+  data: IDataTable | null;
 }
 
 const DataTable = ({ data }: DataTableProps): JSX.Element => {

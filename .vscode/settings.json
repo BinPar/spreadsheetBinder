@@ -5,10 +5,17 @@
     "Swipeable",
     "apos",
     "binpar",
+    "camelcase",
     "clsx",
+    "colbyhill",
+    "elgohr",
     "esnext",
     "fabs",
+    "kubernetes",
+    "plusplus",
+    "rjstone",
     "scrollable",
+    "transpilar",
     "unmount"
   ]
 }
