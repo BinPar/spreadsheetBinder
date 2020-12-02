@@ -19,7 +19,7 @@ spec:
   ports:
     - port: 80
       protocol: TCP
-      targetPort: 8043
+      targetPort: 80
   selector:
     run: spreadsheet-binder-beta
   sessionAffinity: None
@@ -94,6 +94,15 @@ spec:
           name: spreadsheet-binder-beta
           ports:
             - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 10
+            failureThreshold: 2
+            timeoutSeconds: 5
+            periodSeconds: 60
           resources:
             requests:
               memory: '40Mi'
