@@ -20,7 +20,7 @@ COPY ./pages ./pages
 COPY ./src ./src
 COPY ./components ./components
 COPY ./hooks ./hooks
-COPY ./tests ./tests
+COPY ./test ./test
 RUN npm run lint
 RUN npm run test
 
