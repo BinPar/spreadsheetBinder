@@ -5,7 +5,7 @@ COPY package*.json ./
 
 # -- Build Base ---
 FROM base AS build-base
-COPY ["./jest.config.js", "./jest.setup.js", "./tsconfig.json", "./next-env.d.ts", "./.eslintrc", "./.eslintignore", "./"]
+COPY ["./jest.config.js", "./jest.setup.js", "next.config.js", "./tsconfig.json", "./next-env.d.ts", "./.eslintrc", "./.eslintignore", "./"]
 
 # -- Dependencies Node ---
 FROM build-base AS dependencies
@@ -22,7 +22,6 @@ COPY ./components ./components
 COPY ./hooks ./hooks
 COPY ./test ./test
 RUN npm run lint
-RUN npm run test
 
 # ---- Compile  ----
 FROM build-base AS compile
@@ -31,6 +30,7 @@ COPY ./src ./src
 COPY ./components ./components
 COPY ./hooks ./hooks
 COPY ./public ./public
+COPY ./test ./test
 COPY --from=dependencies /usr/src/app/node_modules ./node_modules
 RUN npm run build
 

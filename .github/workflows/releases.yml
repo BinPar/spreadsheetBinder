@@ -50,7 +50,7 @@ jobs:
             severity: error
             details: Release Failed generating version ${{ env.RELEASE_VERSION }} of ${{ github.event.repository.name }}!
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-            avatarUrl: https://pbs.twimg.com/media/EZIk7qQUEAEk109.jpg
+            avatarUrl: ${{ secrets.DISCORD_AVATAR_URL }}
       - name: Release Cancelled
         uses: rjstone/discord-webhook-notify@v1
         if: cancelled()
@@ -58,4 +58,4 @@ jobs:
             severity: warn
             details: Release Cancelled!
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-            avatarUrl: https://pbs.twimg.com/media/EZIk7qQUEAEk109.jpg
+            avatarUrl: ${{ secrets.DISCORD_AVATAR_URL }}
