@@ -42,7 +42,7 @@ jobs:
             severity: info
             details: Version ${{ env.RELEASE_VERSION }} of ${{ github.event.repository.name }} is published in the Registry! at https://spreadsheet-binder-beta.binpar.cloud/.
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-            avatarUrl: https://pbs.twimg.com/media/EZIk7qQUEAEk109.jpg
+            avatarUrl: ${{ secrets.DISCORD_AVATAR_URL }}
       - name: Release Failure
         uses: rjstone/discord-webhook-notify@v1
         if: failure()
